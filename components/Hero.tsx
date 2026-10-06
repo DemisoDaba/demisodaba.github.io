@@ -1,24 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-type Profile = {
-  name: string | null;
-  title: string | null;
-  affiliation: string | null;
-  bio: string | null;
-  email: string | null;
-  location: string | null;
-  profile_image_url: string | null;
-  orcid: string | null;
-  google_scholar: string | null;
-  researchgate: string | null;
-  github: string | null;
-  linkedin: string | null;
-  twitter: string | null;
-  facebook: string | null;
-  cv_url: string | null;
-};
+import type { Profile } from "@/components/types";
 
 type HeroProps = {
   profile: Profile;
