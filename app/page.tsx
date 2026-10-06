@@ -1,4 +1,7 @@
-// app/page.tsx
+
+"use client";
+
+import { useEffect, useState } from "react";
 
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
@@ -6,12 +9,10 @@ import Footer from "@/components/Footer";
 import type { Profile } from "@/components/types";
 import { supabase } from "@/lib/supabase";
 
-export const revalidate = 0; // always fetch fresh data (no caching)
-
 /**
- * Complete fallback profile.
- * Every field must exist (even as `null`) so the Footer/Hero never crash
- * if Supabase returns no row.
+ * Fallback profile.
+ * This is displayed immediately while Supabase is loading
+ * and used if no profile record is available.
  */
 const fallbackProfile: Profile = {
   name: "Demiso Daba",
@@ -31,15 +32,39 @@ const fallbackProfile: Profile = {
   cv_url: null,
 };
 
-export default async function Home() {
-  const { data } = await supabase
-    .from("profile")
-    .select("*")
-    .limit(1)
-    .maybeSingle();
+export default function Home() {
+  const [profile, setProfile] = useState<Profile>(fallbackProfile);
 
-  // Use the DB row if it exists, otherwise a fully-shaped fallback.
-  const profile: Profile = (data as Profile | null) ?? fallbackProfile;
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadProfile() {
+      try {
+        const { data, error } = await supabase
+          .from("profile")
+          .select("*")
+          .limit(1)
+          .maybeSingle();
+
+        if (error) {
+          console.error("Error loading profile:", error);
+          return;
+        }
+
+        if (data && mounted) {
+          setProfile(data as Profile);
+        }
+      } catch (error) {
+        console.error("Unexpected error loading profile:", error);
+      }
+    }
+
+    loadProfile();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <main className="min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
