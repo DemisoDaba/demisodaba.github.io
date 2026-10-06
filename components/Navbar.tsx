@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const links = [
-  { label: "About", href: "/#about" },
-  { label: "Research", href: "/#research" },
-  { label: "Work", href: "/#work" },
-  { label: "Software", href: "/#software" },
+  { label: "About", href: "/about" },
+  { label: "Research", href: "/research" },
+  { label: "Work", href: "/work" },
+  { label: "Software", href: "/software" },
   { label: "Publications", href: "/publications" },
   { label: "News", href: "/news" },
   { label: "CV", href: "/cv" },
@@ -41,7 +41,10 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-gradient-to-r from-[#4a3b9b] via-[#7f4cae] to-[#d271a6] text-white shadow-sm">
+    <header
+      className="sticky top-0 z-50 w-full border-b border-white/10 bg-gradient-to-r from-[#4a3b9b] via-[#7f4cae] to-[#d271a6] text-white shadow-sm"
+      style={{ fontFamily: '"Times New Roman", Times, serif' }}
+    >
       <div className="mx-auto flex h-[72px] max-w-7xl items-center px-5 sm:px-6 lg:px-10">
 
         {/* Brand */}
@@ -82,6 +85,7 @@ export default function Navbar() {
               placeholder="Search..."
               aria-label="Search website"
               className="h-9 w-full rounded-full border border-white/20 bg-white pl-10 pr-4 text-sm text-gray-700 outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-white/40"
+              style={{ fontFamily: '"Times New Roman", Times, serif' }}
             />
           </div>
         </div>
@@ -104,7 +108,9 @@ export default function Navbar() {
           <button
             type="button"
             onClick={toggleTheme}
-            aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+            aria-label={
+              dark ? "Switch to light mode" : "Switch to dark mode"
+            }
             className="rounded-full p-2 text-white/90 transition hover:bg-white/10 hover:text-white"
           >
             {dark ? (
@@ -145,7 +151,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile menu button */}
         <button
           type="button"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
