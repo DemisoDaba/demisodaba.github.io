@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
+import type { Profile } from "@/components/types";
 
 type Course = {
   id: string;
@@ -70,6 +71,7 @@ export default function TeachingPage() {
   const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<string | null>(null);
 
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -79,7 +81,7 @@ export default function TeachingPage() {
   async function loadTeaching() {
     setLoading(true);
 
-    const [coursesResult, chaptersResult, lessonsResult] =
+    const [coursesResult, chaptersResult, lessonsResult, profileResult] =
       await Promise.all([
         supabase
           .from("courses")
@@ -97,6 +99,12 @@ export default function TeachingPage() {
             "id, chapter_id, title, objective, youtube_url, sort_order"
           )
           .order("sort_order", { ascending: true }),
+
+        supabase
+          .from("profile")
+          .select("*")
+          .limit(1)
+          .maybeSingle(),
       ]);
 
     if (coursesResult.error) {
@@ -111,6 +119,10 @@ export default function TeachingPage() {
       console.error("Error loading lessons:", lessonsResult.error);
     }
 
+    if (profileResult.error) {
+      console.error("Error loading profile:", profileResult.error);
+    }
+
     const loadedCourses = coursesResult.data || [];
     const loadedChapters = chaptersResult.data || [];
     const loadedLessons = lessonsResult.data || [];
@@ -118,6 +130,10 @@ export default function TeachingPage() {
     setCourses(loadedCourses);
     setChapters(loadedChapters);
     setLessons(loadedLessons);
+
+    if (!profileResult.error) {
+      setProfile(profileResult.data);
+    }
 
     if (loadedCourses.length > 0) {
       const firstCourse = loadedCourses[0];
@@ -290,7 +306,8 @@ export default function TeachingPage() {
             </h3>
 
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-              Teaching courses and learning resources will appear here once approved.
+              Teaching courses and learning resources will appear here once
+              approved.
             </p>
           </div>
         ) : (
@@ -503,7 +520,6 @@ export default function TeachingPage() {
                   {/* SELECTED LESSON */}
                   {selectedLessonData ? (
                     <article className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/70 dark:border-slate-800 dark:bg-slate-950/60">
-
                       {/* VIDEO FIRST */}
                       {(() => {
                         const embedUrl = getYouTubeEmbedUrl(
@@ -586,7 +602,7 @@ export default function TeachingPage() {
         )}
       </section>
 
-      <Footer />
+      <Footer profile={profile} />
     </main>
   );
 }
