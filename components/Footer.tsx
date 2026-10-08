@@ -1,11 +1,19 @@
 import type { Profile } from "@/components/types";
 
 type FooterProps = {
-  profile: Profile;
+  profile?: Profile | null;
 };
 
 export default function Footer({ profile }: FooterProps) {
   const year = new Date().getFullYear();
+
+  const name = profile?.name || "Demiso Daba";
+  const affiliation = profile?.affiliation || "Arba Minch University";
+  const location = profile?.location || "Arba Minch, Ethiopia";
+  const email = profile?.email || "";
+  const github = profile?.github || "";
+  const orcid = profile?.orcid || "";
+  const researchgate = profile?.researchgate || "";
 
   return (
     <footer
@@ -14,24 +22,20 @@ export default function Footer({ profile }: FooterProps) {
     >
       <div className="mx-auto max-w-[1800px] px-6 py-7 lg:px-12 xl:px-20">
 
-        {/* =========================================================
-            MAIN FOOTER
-        ========================================================== */}
+        {/* MAIN FOOTER */}
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-[1fr_3fr_0.7fr_1.2fr] lg:gap-14">
 
-          {/* =========================================================
-              1. DEMISO DABA
-          ========================================================== */}
+          {/* DEMISO DABA */}
           <div>
             <h2
               className="bg-gradient-to-r from-cyan-400 via-blue-400 to-violet-400 bg-clip-text text-lg font-bold text-transparent"
               style={{ fontFamily: '"Times New Roman", Times, serif' }}
             >
-              {profile.name}
+              {name}
             </h2>
 
             <p className="mt-2 max-w-sm text-xs leading-5 text-slate-400">
-              {profile.affiliation}
+              {affiliation}
             </p>
 
             {/* Location */}
@@ -53,13 +57,11 @@ export default function Footer({ profile }: FooterProps) {
                 <circle cx="12" cy="10" r="2.3" />
               </svg>
 
-              {profile.location || "Arba Minch, Ethiopia"}
+              {location}
             </p>
           </div>
 
-          {/* =========================================================
-              2. RESEARCH
-          ========================================================== */}
+          {/* RESEARCH */}
           <div>
             <h3 className="inline-block text-sm font-semibold text-cyan-400 underline decoration-cyan-400/50 underline-offset-4">
               Research
@@ -72,20 +74,18 @@ export default function Footer({ profile }: FooterProps) {
             </p>
           </div>
 
-          {/* =========================================================
-              3. EMAIL ME
-          ========================================================== */}
+          {/* EMAIL ME */}
           <div>
             <h3 className="inline-block text-sm font-semibold text-cyan-400 underline decoration-cyan-400/50 underline-offset-4">
               Email Me
             </h3>
 
             <div className="mt-3">
-              {profile.email && (
+              {email && (
                 <a
-                  href={`mailto:${profile.email}`}
-                  aria-label={`Email ${profile.name}`}
-                  title={`Email ${profile.name}`}
+                  href={`mailto:${email}`}
+                  aria-label={`Email ${name}`}
+                  title={`Email ${name}`}
                   className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-cyan-400 transition hover:-translate-y-1 hover:border-cyan-400/70 hover:bg-cyan-400/10 hover:text-cyan-300"
                 >
                   <svg
@@ -111,15 +111,12 @@ export default function Footer({ profile }: FooterProps) {
             </div>
           </div>
 
-          {/* =========================================================
-              4. CONNECT
-          ========================================================== */}
+          {/* CONNECT */}
           <div>
             <h3 className="inline-block text-sm font-semibold text-violet-400 underline decoration-violet-400/50 underline-offset-4">
               Connect
             </h3>
 
-            {/* One horizontal row */}
             <div className="mt-3 flex items-center gap-2">
 
               {/* LinkedIn */}
@@ -142,9 +139,9 @@ export default function Footer({ profile }: FooterProps) {
               </a>
 
               {/* GitHub */}
-              {profile.github && (
+              {github && (
                 <a
-                  href={profile.github}
+                  href={github}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
@@ -163,9 +160,9 @@ export default function Footer({ profile }: FooterProps) {
               )}
 
               {/* ORCID */}
-              {profile.orcid && (
+              {orcid && (
                 <a
-                  href={profile.orcid}
+                  href={orcid}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="ORCID"
@@ -178,9 +175,9 @@ export default function Footer({ profile }: FooterProps) {
               )}
 
               {/* ResearchGate */}
-              {profile.researchgate && (
+              {researchgate && (
                 <a
-                  href={profile.researchgate}
+                  href={researchgate}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="ResearchGate"
@@ -195,12 +192,10 @@ export default function Footer({ profile }: FooterProps) {
           </div>
         </div>
 
-        {/* =========================================================
-            BOTTOM BAR
-        ========================================================== */}
+        {/* BOTTOM BAR */}
         <div className="mt-6 flex flex-col gap-1.5 border-t border-slate-800 pt-4 text-[11px] text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <span>
-            © {year} {profile.name}. All rights reserved.
+            © {year} {name}. All rights reserved.
           </span>
 
           <span className="text-slate-600">
