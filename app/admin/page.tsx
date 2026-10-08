@@ -17,6 +17,11 @@ const sections = [
     description: "Manage research projects and funding.",
   },
   {
+    title: "Professional Experience",
+    href: "/admin/experience",
+    description: "Manage your professional and academic experience.",
+  },
+  {
     title: "CV",
     href: "/admin/cv",
     description: "Manage your academic CV information.",
